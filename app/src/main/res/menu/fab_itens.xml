@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/action_erase_all"
+        android:icon="@drawable/baseline_delete_forever_white_36dp"
+        android:orderInCategory="3"
+        android:title="Erase All Recipes" />
+
+    <item
+        android:id="@+id/action_add_recipe"
+        android:icon="@drawable/baseline_library_add_white_36dp"
+        android:orderInCategory="2"
+        android:title="Add a new Recipe" />
+
+    <item
+        android:id="@+id/action_add_sample"
+        android:icon="@drawable/baseline_restaurant_menu_white_36dp"
+        android:orderInCategory="1"
+        android:title="Add Sample Recipes" />
+
+</menu>
