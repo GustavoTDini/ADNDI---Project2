@@ -44,12 +44,12 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
         Timber.d("RecyclerView: %s", recyclerView.toString());
 
-        ingredientsViewModel(recyclerView);
+        stepsViewModel(recyclerView);
 
         return rootView;
     }
 
-    private void ingredientsViewModel(final RecyclerView recyclerView) {
+    private void stepsViewModel(final RecyclerView recyclerView) {
 
         GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId);
         final GetStepsViewModel viewModel
