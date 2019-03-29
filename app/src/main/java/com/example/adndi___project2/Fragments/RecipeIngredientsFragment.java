@@ -27,8 +27,6 @@ public class RecipeIngredientsFragment extends Fragment {
 
     private int mRecipeId = 0;
 
-    private RecipeDatabase mDb;
-
     public RecipeIngredientsFragment() {
     }
 
@@ -36,8 +34,6 @@ public class RecipeIngredientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipe_ingredients_fragment, container, false);
-
-        mDb = RecipeDatabase.getInstance(getContext());
 
         final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredients_list);
 
@@ -49,6 +45,7 @@ public class RecipeIngredientsFragment extends Fragment {
     }
 
     private void ingredientsViewModel(final RecyclerView recyclerView) {
+        RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
 
         GetIngredientViewModelFactory factory = new GetIngredientViewModelFactory(mDb, mRecipeId);
         final GetIngredientViewModel viewModel

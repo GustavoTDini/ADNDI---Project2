@@ -2,10 +2,13 @@ package com.example.adndi___project2.Fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +20,8 @@ import com.example.adndi___project2.AppAdaptersAndViewHolders.StepsRecyclerAdapt
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.DataBase.RecipeSteps;
 import com.example.adndi___project2.R;
+import com.example.adndi___project2.RecipeStepsActivity;
+import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetStepsViewModel;
 import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
 
@@ -28,7 +33,9 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
     private int mRecipeId = 0;
 
-    private RecipeDatabase mDb;
+    private Boolean mTwoPane;
+
+
 
     public RecipeStepsFragment() {
     }
@@ -38,7 +45,7 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipe_steps_fragment, container, false);
 
-        mDb = RecipeDatabase.getInstance(getContext());
+        mTwoPane = getResources().getBoolean(R.bool.tablet);
 
         final RecyclerView recyclerView = rootView.findViewById(R.id.rv_steps_list);
 
@@ -51,7 +58,9 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
     private void stepsViewModel(final RecyclerView recyclerView) {
 
-        GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId);
+        RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
+
+        GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId, 0);
         final GetStepsViewModel viewModel
                 = ViewModelProviders.of(this, factory).get(GetStepsViewModel.class);
 
@@ -80,6 +89,26 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
     @Override
     public void onClick(int position) {
-
+        FragmentManager fragmentManager = getFragmentManager();
+        if (mTwoPane) {
+            RecipeViewPager detailsViewPager = new RecipeViewPager();
+            detailsViewPager.setRecipeId(mRecipeId);
+            detailsViewPager.setViewPagerPage(position + 1);
+            fragmentManager.beginTransaction()
+                    .add(R.id.fl_detail_container, detailsViewPager)
+                    .commit();
+            detailsViewPager.setViewPagerPage(position + 1);
+            detailsViewPager.setRecipeId(mRecipeId);
+            fragmentManager.beginTransaction()
+                    .add(R.id.fl_detail_container, detailsViewPager)
+                    .commit();
+        } else {
+            Context context = getContext();
+            Class destinationClass = RecipeStepsActivity.class;
+            Intent stepsIntent = new Intent(context, destinationClass);
+            stepsIntent.putExtra(DataUtilities.ID_INTENT_EXTRA, mRecipeId);
+            stepsIntent.putExtra(DataUtilities.PAGER_ORDER_EXTRA, position + 1);
+            startActivity(stepsIntent);
+        }
     }
 }

@@ -16,20 +16,17 @@
     master/detail flow.
     
     -->
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/item_list"
-        android:name="com.example.adndi___project2.ItemListFragment"
-        android:layout_width="@dimen/item_width"
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        tools:context=".MainActivity">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_recipe_title"
@@ -40,19 +37,19 @@
             <FrameLayout
                 android:id="@+id/fl_ingredient_list_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></FrameLayout>
+                android:layout_height="wrap_content" />
 
             <FrameLayout
                 android:id="@+id/fl_steps_list_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></FrameLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/item_detail_container"
+        android:id="@+id/fl_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3" />

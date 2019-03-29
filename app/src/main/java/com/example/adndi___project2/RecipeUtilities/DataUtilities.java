@@ -13,6 +13,8 @@ public class DataUtilities {
 
     public static final String ID_INTENT_EXTRA = "recipe_id";
 
+    public static final String PAGER_ORDER_EXTRA = "pageOrder";
+
 
     // Member variable for the Database
     private static RecipeDatabase mDb;

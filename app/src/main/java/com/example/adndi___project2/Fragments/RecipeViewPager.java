@@ -20,12 +20,12 @@ import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
 
 import java.util.List;
 
+import timber.log.Timber;
 
-public class RecipeStepsDetailsFragment extends Fragment {
+
+public class RecipeViewPager extends Fragment {
 
     private int mRecipeId = 0;
-
-    private RecipeDatabase mDb;
 
     private List<RecipeSteps> mSteps;
 
@@ -34,7 +34,7 @@ public class RecipeStepsDetailsFragment extends Fragment {
     private PagerAdapter pagerAdapter;
 
 
-    public RecipeStepsDetailsFragment() {
+    public RecipeViewPager() {
     }
 
     @Override
@@ -43,37 +43,46 @@ public class RecipeStepsDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.recipe_steps_pager_fragment, container, false);
 
-        mDb = RecipeDatabase.getInstance(getContext());
+        Timber.d("RecipeID: %s", mRecipeId);
 
-        stepsViewModel();
-
-        setViewPager( rootView );
+        stepsViewModel(rootView);
 
         return rootView;
     }
 
-    private void stepsViewModel() {
 
-        GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId);
+    private void setViewPager(View view, List<RecipeSteps> steps) {
+        mPager = view.findViewById(R.id.vp_details);
+        pagerAdapter = new StepsViewPagerAdapter(getFragmentManager());
+        mPager.setAdapter(pagerAdapter);
+        Timber.d("Steps %s", mSteps);
+        ((StepsViewPagerAdapter) pagerAdapter).setSteps(steps.size() + 1);
+        ((StepsViewPagerAdapter) pagerAdapter).getRecipeId(mRecipeId);
+    }
+
+    public void setRecipeId(int recipeId) {
+        mRecipeId = recipeId;
+    }
+
+    private void stepsViewModel(final View view) {
+
+        RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
+
+        GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId, 0);
         final GetStepsViewModel viewModel
                 = ViewModelProviders.of(this, factory).get(GetStepsViewModel.class);
 
         viewModel.getSteps().observe(this, new Observer<List<RecipeSteps>>() {
             @Override
             public void onChanged(@Nullable List<RecipeSteps> recipeSteps) {
-                mSteps = recipeSteps;
+                setViewPager(view, recipeSteps);
+
             }
         });
     }
 
-    private void setViewPager(View view){
-        mPager = view.findViewById(R.id.vp_details);
-        pagerAdapter = new StepsViewPagerAdapter(getFragmentManager());
-        mPager.setAdapter(pagerAdapter);
-    }
-
-    public void setRecipeId(int recipeId) {
-        mRecipeId = recipeId;
+    public void setViewPagerPage(int i) {
+        mPager.setCurrentItem(i);
     }
 
 }
