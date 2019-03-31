@@ -33,6 +33,8 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
     private int mRecipeId = 0;
 
+    private int mStepOrder = 0;
+
     private Boolean mTwoPane;
 
 
@@ -46,6 +48,10 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
         View rootView = inflater.inflate(R.layout.recipe_steps_fragment, container, false);
 
         mTwoPane = getResources().getBoolean(R.bool.tablet);
+
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.ID_INTENT_EXTRA )) {
+            mRecipeId = getArguments().getInt( DataUtilities.ID_INTENT_EXTRA );
+        }
 
         final RecyclerView recyclerView = rootView.findViewById(R.id.rv_steps_list);
 
@@ -83,24 +89,15 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
         recyclerView.setAdapter(mStepsAdapter);
     }
 
-    public void setRecipeId(int recipeId) {
-        mRecipeId = recipeId;
-    }
-
     @Override
     public void onClick(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         if (mTwoPane) {
             RecipeViewPager detailsViewPager = new RecipeViewPager();
-            detailsViewPager.setRecipeId(mRecipeId);
-            detailsViewPager.setViewPagerPage(position + 1);
-            fragmentManager.beginTransaction()
-                    .add(R.id.fl_detail_container, detailsViewPager)
-                    .commit();
-            detailsViewPager.setViewPagerPage(position + 1);
-            detailsViewPager.setRecipeId(mRecipeId);
-            fragmentManager.beginTransaction()
-                    .add(R.id.fl_detail_container, detailsViewPager)
+            Bundle arguments = new Bundle();
+            arguments.putInt( DataUtilities.ID_INTENT_EXTRA, mRecipeId );
+            arguments.putInt( DataUtilities.PAGER_ORDER_EXTRA, position + 1 );
+            fragmentManager.beginTransaction().replace(R.id.fl_detail_container, detailsViewPager)
                     .commit();
         } else {
             Context context = getContext();

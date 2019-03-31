@@ -16,8 +16,11 @@ import com.example.adndi___project2.AppAdaptersAndViewHolders.IngredientsRecycle
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.DataBase.RecipeIngredients;
 import com.example.adndi___project2.R;
+import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetIngredientViewModel;
 import com.example.adndi___project2.ViewModel.GetIngredientViewModelFactory;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -31,11 +34,15 @@ public class RecipeIngredientsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipe_ingredients_fragment, container, false);
 
         final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredients_list);
+
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.ID_INTENT_EXTRA )) {
+            mRecipeId = getArguments().getInt( DataUtilities.ID_INTENT_EXTRA );
+        }
 
         Timber.d("RecyclerView: %s", recyclerView.toString());
 
@@ -68,10 +75,6 @@ public class RecipeIngredientsFragment extends Fragment {
         IngredientsRecyclerAdapter mIngredientsAdapter = new IngredientsRecyclerAdapter();
         mIngredientsAdapter.setIngredientsList(recipesList);
         recyclerView.setAdapter(mIngredientsAdapter);
-    }
-
-    public void setRecipeId(int recipeId) {
-        mRecipeId = recipeId;
     }
 
 }

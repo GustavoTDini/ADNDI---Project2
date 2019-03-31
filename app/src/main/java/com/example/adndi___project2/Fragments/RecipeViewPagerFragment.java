@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.adndi___project2.DataBase.RecipeData;
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.R;
+import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetRecipeViewModel;
 import com.example.adndi___project2.ViewModel.GetRecipeViewModelFactory;
 
@@ -30,15 +31,15 @@ public class RecipeViewPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_first_page, container, false);
 
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.ID_INTENT_EXTRA )) {
+            mRecipeId = getArguments().getInt( DataUtilities.ID_INTENT_EXTRA );
+        }
+
         recipeViewModel();
 
         titleTV = rootView.findViewById(R.id.tv_detail_servings);
 
         return rootView;
-    }
-
-    public void setRecipe(int recipeId) {
-        mRecipeId = recipeId;
     }
 
     private void recipeViewModel() {

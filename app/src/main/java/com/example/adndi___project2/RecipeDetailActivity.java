@@ -53,22 +53,24 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecyclerA
         detailsViewModel();
 
         fragmentManager = getSupportFragmentManager();
+        Bundle arguments = new Bundle();
+        arguments.putInt( DataUtilities.ID_INTENT_EXTRA, mRecipeId );
 
         RecipeIngredientsFragment ingredientsFragment = new RecipeIngredientsFragment();
-        ingredientsFragment.setRecipeId(mRecipeId);
+        ingredientsFragment.setArguments( arguments );
         fragmentManager.beginTransaction()
                 .add(R.id.fl_ingredient_list_container, ingredientsFragment)
                 .commit();
 
         RecipeStepsFragment stepsFragment = new RecipeStepsFragment();
-        stepsFragment.setRecipeId(mRecipeId);
+        stepsFragment.setArguments( arguments );
         fragmentManager.beginTransaction()
                 .add(R.id.fl_steps_list_container, stepsFragment)
                 .commit();
 
         if (mTwoPane) {
             detailsViewPager = new RecipeViewPager();
-            detailsViewPager.setRecipeId(mRecipeId);
+            stepsFragment.setArguments( arguments );
             fragmentManager.beginTransaction()
                     .add(R.id.fl_detail_container, detailsViewPager)
                     .commit();

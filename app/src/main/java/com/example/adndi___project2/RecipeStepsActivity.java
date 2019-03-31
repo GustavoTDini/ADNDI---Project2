@@ -19,6 +19,8 @@ import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class RecipeStepsActivity extends AppCompatActivity {
 
     private int mRecipeId = 0;
@@ -27,6 +29,11 @@ public class RecipeStepsActivity extends AppCompatActivity {
     private ViewPager mPager;
 
     private PagerAdapter pagerAdapter;
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class RecipeStepsActivity extends AppCompatActivity {
         if (intentThatStartedThisActivity.hasExtra(DataUtilities.ID_INTENT_EXTRA)) {
             mRecipeId = getIntent().getIntExtra(DataUtilities.ID_INTENT_EXTRA, 0);
             mInitialStepOrder = getIntent().getIntExtra(DataUtilities.PAGER_ORDER_EXTRA, 0);
+            Timber.d( "currentPage %s", mInitialStepOrder );
         }
 
         stepsViewModel();
@@ -50,9 +58,9 @@ public class RecipeStepsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         pagerAdapter = new StepsViewPagerAdapter(fragmentManager);
         mPager.setAdapter(pagerAdapter);
-        mPager.setCurrentItem(mInitialStepOrder);
         ((StepsViewPagerAdapter) pagerAdapter).setSteps(steps.size() + 1);
         ((StepsViewPagerAdapter) pagerAdapter).getRecipeId(mRecipeId);
+        mPager.setCurrentItem(mInitialStepOrder);
     }
 
     private void stepsViewModel() {

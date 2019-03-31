@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.DataBase.RecipeSteps;
 import com.example.adndi___project2.R;
+import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetStepsViewModel;
 import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
 
@@ -34,19 +35,19 @@ public class StepViewPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.steps_details_content, container, false);
 
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.ID_INTENT_EXTRA )) {
+            mRecipeId = getArguments().getInt( DataUtilities.ID_INTENT_EXTRA );
+        }
+
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.PAGER_ORDER_EXTRA )) {
+            mStepOrder = getArguments().getInt( DataUtilities.PAGER_ORDER_EXTRA );
+        }
+
         stepsViewModel();
 
         titleTV = rootView.findViewById(R.id.tv_step_details_description);
 
         return rootView;
-    }
-
-    public void setOrder(int stepOrder) {
-        mStepOrder = stepOrder;
-    }
-
-    public void setRecipe(int recipeId) {
-        mRecipeId = recipeId;
     }
 
     private void stepsViewModel() {

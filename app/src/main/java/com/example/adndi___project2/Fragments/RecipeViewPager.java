@@ -15,6 +15,7 @@ import com.example.adndi___project2.AppAdaptersAndViewHolders.StepsViewPagerAdap
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.DataBase.RecipeSteps;
 import com.example.adndi___project2.R;
+import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetStepsViewModel;
 import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
 
@@ -25,13 +26,15 @@ import timber.log.Timber;
 
 public class RecipeViewPager extends Fragment {
 
-    private int mRecipeId = 0;
+    private final int DEFAULT_CURRENT_PAGE = -1;
 
-    private List<RecipeSteps> mSteps;
+    private int mRecipeId = 0;
 
     private ViewPager mPager;
 
     private PagerAdapter pagerAdapter;
+
+    private int currentPage = DEFAULT_CURRENT_PAGE;
 
 
     public RecipeViewPager() {
@@ -45,6 +48,10 @@ public class RecipeViewPager extends Fragment {
 
         Timber.d("RecipeID: %s", mRecipeId);
 
+        if (getArguments() != null && getArguments().containsKey( DataUtilities.ID_INTENT_EXTRA )) {
+            mRecipeId = getArguments().getInt( DataUtilities.ID_INTENT_EXTRA );
+        }
+
         stepsViewModel(rootView);
 
         return rootView;
@@ -55,13 +62,10 @@ public class RecipeViewPager extends Fragment {
         mPager = view.findViewById(R.id.vp_details);
         pagerAdapter = new StepsViewPagerAdapter(getFragmentManager());
         mPager.setAdapter(pagerAdapter);
-        Timber.d("Steps %s", mSteps);
+        mPager.setCurrentItem( 0,true );
         ((StepsViewPagerAdapter) pagerAdapter).setSteps(steps.size() + 1);
         ((StepsViewPagerAdapter) pagerAdapter).getRecipeId(mRecipeId);
-    }
-
-    public void setRecipeId(int recipeId) {
-        mRecipeId = recipeId;
+        mPager.setCurrentItem( 0,true );
     }
 
     private void stepsViewModel(final View view) {
