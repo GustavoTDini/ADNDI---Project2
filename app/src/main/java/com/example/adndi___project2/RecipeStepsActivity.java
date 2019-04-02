@@ -8,14 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.adndi___project2.AppAdaptersAndViewHolders.StepsViewPagerAdapter;
+import com.example.adndi___project2.DataBase.RecipeData;
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.DataBase.RecipeSteps;
 import com.example.adndi___project2.RecipeUtilities.DataUtilities;
+import com.example.adndi___project2.ViewModel.GetRecipeViewModel;
+import com.example.adndi___project2.ViewModel.GetRecipeViewModelFactory;
 import com.example.adndi___project2.ViewModel.GetStepsViewModel;
 import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
+import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
 
 import java.util.List;
 
@@ -30,9 +35,12 @@ public class RecipeStepsActivity extends AppCompatActivity {
 
     private PagerAdapter pagerAdapter;
 
+    ActionBar toolbar;
+
     @Override
     public boolean onSupportNavigateUp() {
-        return super.onSupportNavigateUp();
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -41,6 +49,8 @@ public class RecipeStepsActivity extends AppCompatActivity {
         setContentView(R.layout.recipe_steps_pager_fragment);
 
         Intent intentThatStartedThisActivity = getIntent();
+
+        toolbar = getSupportActionBar();
 
         if (intentThatStartedThisActivity.hasExtra(DataUtilities.ID_INTENT_EXTRA)) {
             mRecipeId = getIntent().getIntExtra(DataUtilities.ID_INTENT_EXTRA, 0);
@@ -58,6 +68,14 @@ public class RecipeStepsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         pagerAdapter = new StepsViewPagerAdapter(fragmentManager);
         mPager.setAdapter(pagerAdapter);
+
+        // Create an object of page transformer
+        BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();
+        bookFlipPageTransformer.setEnableScale(true);
+        bookFlipPageTransformer.setScaleAmountPercent(10f);
+
+        mPager.setPageTransformer(true, bookFlipPageTransformer);
+
         ((StepsViewPagerAdapter) pagerAdapter).setSteps(steps.size() + 1);
         ((StepsViewPagerAdapter) pagerAdapter).getRecipeId(mRecipeId);
         mPager.setCurrentItem(mInitialStepOrder);
@@ -67,15 +85,25 @@ public class RecipeStepsActivity extends AppCompatActivity {
 
         RecipeDatabase mDb = RecipeDatabase.getInstance(getApplicationContext());
 
-        GetStepsViewModelFactory factory = new GetStepsViewModelFactory(mDb, mRecipeId, 0);
-        final GetStepsViewModel viewModel
-                = ViewModelProviders.of(this, factory).get(GetStepsViewModel.class);
+        GetStepsViewModelFactory stepFactory = new GetStepsViewModelFactory(mDb, mRecipeId, 0);
+        final GetStepsViewModel stepViewModel
+                = ViewModelProviders.of(this, stepFactory).get(GetStepsViewModel.class);
 
-        viewModel.getSteps().observe(this, new Observer<List<RecipeSteps>>() {
+        stepViewModel.getSteps().observe(this, new Observer<List<RecipeSteps>>() {
             @Override
             public void onChanged(@Nullable List<RecipeSteps> recipeSteps) {
                 setViewPager(recipeSteps);
+            }
+        });
 
+        GetRecipeViewModelFactory recipeFactory = new GetRecipeViewModelFactory(mDb, mRecipeId);
+        final GetRecipeViewModel recipeViewModel
+                = ViewModelProviders.of(this, recipeFactory).get(GetRecipeViewModel.class);
+
+        recipeViewModel.getRecipe().observe(this, new Observer<RecipeData>() {
+            @Override
+            public void onChanged(@Nullable RecipeData recipe) {
+                toolbar.setTitle(recipe.getRecipeName());
             }
         });
     }

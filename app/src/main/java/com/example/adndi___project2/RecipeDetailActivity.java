@@ -6,34 +6,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toolbar;
 
-import com.example.adndi___project2.AppAdaptersAndViewHolders.RecyclerAdapterOnClickHandler;
 import com.example.adndi___project2.DataBase.RecipeData;
 import com.example.adndi___project2.DataBase.RecipeDatabase;
 import com.example.adndi___project2.Fragments.RecipeIngredientsFragment;
 import com.example.adndi___project2.Fragments.RecipeStepsFragment;
-import com.example.adndi___project2.Fragments.RecipeViewPager;
+import com.example.adndi___project2.Fragments.RecipeViewPagerFragment;
 import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.ViewModel.GetRecipeViewModel;
 import com.example.adndi___project2.ViewModel.GetRecipeViewModelFactory;
 
-/**
- * An activity representing a single Item detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link MainActivity}.
- */
-public class RecipeDetailActivity extends AppCompatActivity implements RecyclerAdapterOnClickHandler {
+import timber.log.Timber;
+
+
+public class RecipeDetailActivity extends AppCompatActivity {
 
     private int mRecipeId = 0;
-    private RecipeData mRecipe;
     private boolean mTwoPane;
     private RecipeDatabase mDb;
-    RecipeViewPager detailsViewPager;
     FragmentManager fragmentManager;
-    Toolbar toolbar;
+    ActionBar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +35,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecyclerA
         setContentView(R.layout.recipe_details_activity);
 
         mTwoPane = getResources().getBoolean(R.bool.tablet);
+
+        toolbar = getSupportActionBar();
 
         mDb = RecipeDatabase.getInstance(this);
 
@@ -69,14 +65,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecyclerA
                 .commit();
 
         if (mTwoPane) {
-            detailsViewPager = new RecipeViewPager();
-            stepsFragment.setArguments( arguments );
-            fragmentManager.beginTransaction()
-                    .add(R.id.fl_detail_container, detailsViewPager)
+            RecipeViewPagerFragment detailsViewPager = new RecipeViewPagerFragment();
+            detailsViewPager.setArguments(arguments);
+            fragmentManager.beginTransaction().add(R.id.fl_detail_container, detailsViewPager)
                     .commit();
         }
-
-
     }
 
 
@@ -89,13 +82,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecyclerA
         viewModel.getRecipe().observe(this, new Observer<RecipeData>() {
             @Override
             public void onChanged(@Nullable RecipeData recipeData) {
-                mRecipe = recipeData;
+                String recipeName = recipeData.getRecipeName();
+                Timber.d("recipeName: %s", recipeName);
+                toolbar.setTitle(recipeData.getRecipeName());
             }
         });
     }
 
-    @Override
-    public void onClick(int position) {
-
-    }
 }

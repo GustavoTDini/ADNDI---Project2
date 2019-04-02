@@ -21,6 +21,7 @@ import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 import com.example.adndi___project2.RecipeUtilities.JsonUtilities;
 import com.example.adndi___project2.RecipeUtilities.NetworkUtilities;
 import com.example.adndi___project2.ViewModel.RecipeViewModel;
+import com.example.adndi___project2.Widget.RecipeAppWidget;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -33,10 +34,16 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity implements RecyclerAdapterOnClickHandler {
 
     // int com o total de View do grid em Modo paisagem
-    private static final int LANDSCAPE_SPAM = 2;
+    private static final int LANDSCAPE_SPAM_PHONE = 2;
 
     // int com o total de View do grid em Modo retrato
-    private static final int PORTRAIT_SPAM = 1;
+    private static final int PORTRAIT_SPAM_PHONE = 1;
+
+    // int com o total de View do grid em Modo paisagem
+    private static final int LANDSCAPE_SPAM_TABLET = 3;
+
+    // int com o total de View do grid em Modo retrato
+    private static final int PORTRAIT_SPAM_TABLET = 2;
 
     List<RecipeData> mRecipesList;
 
@@ -58,11 +65,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<RecipeData> recipesList) {
         // Recebimento da orientação e definição do gridSpam para a correta exibição da View
+        int gridSpam = PORTRAIT_SPAM_PHONE;
         int orientation = getResources().getConfiguration().orientation;
-        int gridSpam = PORTRAIT_SPAM;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            gridSpam = LANDSCAPE_SPAM;
+        boolean tablet = getResources().getBoolean(R.bool.tablet);
+        if (tablet) {
+            gridSpam = PORTRAIT_SPAM_TABLET;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                gridSpam = LANDSCAPE_SPAM_TABLET;
+            }
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridSpam = LANDSCAPE_SPAM_PHONE;
         }
+
 
         // definição e inicialização do GridLayoutManager com o MovieGridAdapter no mRecyclerView
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpam);
@@ -76,9 +90,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
     @Override
     public void onClick(int position) {
         Context context = this;
+        int thisRecipeId = mRecipesList.get(position).getRecipeId();
         Class destinationClass = RecipeDetailActivity.class;
+        RecipeAppWidget.updateWidget(context, thisRecipeId);
         Intent detailsIntent = new Intent(context, destinationClass);
-        detailsIntent.putExtra(DataUtilities.ID_INTENT_EXTRA, mRecipesList.get(position).getRecipeId());
+        detailsIntent.putExtra(DataUtilities.ID_INTENT_EXTRA, thisRecipeId);
         startActivity(detailsIntent);
     }
 

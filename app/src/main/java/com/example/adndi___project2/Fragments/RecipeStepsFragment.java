@@ -33,8 +33,6 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
 
     private int mRecipeId = 0;
 
-    private int mStepOrder = 0;
-
     private Boolean mTwoPane;
 
 
@@ -93,10 +91,12 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
     public void onClick(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         if (mTwoPane) {
-            RecipeViewPager detailsViewPager = new RecipeViewPager();
+            RecipeViewPagerFragment detailsViewPager = new RecipeViewPagerFragment();
             Bundle arguments = new Bundle();
             arguments.putInt( DataUtilities.ID_INTENT_EXTRA, mRecipeId );
             arguments.putInt( DataUtilities.PAGER_ORDER_EXTRA, position + 1 );
+            detailsViewPager.setArguments(arguments);
+            Timber.d("DetailsFragment: %s", detailsViewPager.toString());
             fragmentManager.beginTransaction().replace(R.id.fl_detail_container, detailsViewPager)
                     .commit();
         } else {

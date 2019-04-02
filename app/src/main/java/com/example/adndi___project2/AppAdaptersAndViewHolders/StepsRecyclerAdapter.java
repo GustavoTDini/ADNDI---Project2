@@ -90,7 +90,7 @@ public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> 
     }
 
     /**
-     * setMovieData define qual lista queremos usar no MovieGridAdapter
+     * setRecipeData define qual lista queremos usar no MovieGridAdapter
      *
      * @param stepsList lista que utilizaremos
      */

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.adndi___project2.Fragments.RecipeViewPagerFragment;
+import com.example.adndi___project2.Fragments.FirstPageViewPagerFragment;
 import com.example.adndi___project2.Fragments.StepViewPagerFragment;
 import com.example.adndi___project2.RecipeUtilities.DataUtilities;
 
@@ -23,21 +23,18 @@ public class StepsViewPagerAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public Fragment getItem(int i) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(DataUtilities.ID_INTENT_EXTRA, mRecipeId);
+        arguments.putInt(DataUtilities.PAGER_ORDER_EXTRA, i - 1);
         if (i == 0) {
-            RecipeViewPagerFragment recipeViewPagerFragment = new RecipeViewPagerFragment();
-            Bundle arguments = new Bundle();
-            arguments.putInt( DataUtilities.ID_INTENT_EXTRA, mRecipeId );
-            recipeViewPagerFragment.setArguments( arguments );
-            return recipeViewPagerFragment;
+            FirstPageViewPagerFragment firstPageViewPagerFragment = new FirstPageViewPagerFragment();
+            firstPageViewPagerFragment.setArguments(arguments);
+            return firstPageViewPagerFragment;
         } else {
             StepViewPagerFragment stepsViewPagerFragment = new StepViewPagerFragment();
-            Bundle arguments = new Bundle();
-            arguments.putInt( DataUtilities.ID_INTENT_EXTRA, mRecipeId );
-            arguments.putInt( DataUtilities.PAGER_ORDER_EXTRA, i-1 );
             stepsViewPagerFragment.setArguments( arguments );
             return stepsViewPagerFragment;
         }
-
     }
 
     @Override

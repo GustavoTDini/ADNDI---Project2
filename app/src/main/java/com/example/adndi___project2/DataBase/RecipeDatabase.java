@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
-@Database(entities = {RecipeData.class, RecipeIngredients.class, RecipeSteps.class}, version = 2, exportSchema = false)
+@Database(entities = {RecipeData.class, RecipeIngredients.class, RecipeSteps.class}, version = 3, exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = RecipeDatabase.class.getSimpleName();
