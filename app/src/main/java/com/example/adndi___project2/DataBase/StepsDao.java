@@ -32,8 +32,4 @@ public interface StepsDao {
 
     @Query("SELECT * FROM steps")
     LiveData<List<RecipeSteps>> loadSteps();
-
-    @Query("SELECT * FROM steps WHERE recipe_id = :recipeId")
-    List<RecipeSteps> loadWidgetSteps(int recipeId);
-
 }

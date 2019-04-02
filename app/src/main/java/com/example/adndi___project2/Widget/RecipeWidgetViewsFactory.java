@@ -5,7 +5,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.adndi___project2.DataBase.RecipeDatabase;
-import com.example.adndi___project2.DataBase.RecipeSteps;
+import com.example.adndi___project2.DataBase.RecipeIngredients;
 import com.example.adndi___project2.R;
 import com.example.adndi___project2.RecipeUtilities.AppExecutors;
 
@@ -15,7 +15,7 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
 
     private Context mContext;
     private int mRecipeId;
-    private List<RecipeSteps> mSteps;
+    private List<RecipeIngredients> mIngredients;
 
     public RecipeWidgetViewsFactory(Context context) {
         mContext = context;
@@ -27,7 +27,7 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public void onDataSetChanged() {
-        getSteps();
+        getIngredients();
     }
 
     @Override
@@ -37,17 +37,17 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public int getCount() {
-        if (mSteps != null) {
-            return mSteps.size();
+        if (mIngredients != null) {
+            return mIngredients.size();
         }
         return 0;
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        if (mSteps != null) {
+        if (mIngredients != null) {
             RemoteViews remoteView = new RemoteViews(mContext.getPackageName(), R.layout.widget_content);
-            remoteView.setTextViewText(R.id.tv_widget_content, mSteps.get(position).getStepDescription());
+            remoteView.setTextViewText(R.id.tv_widget_content, mIngredients.get(position).getIngredientName());
             return remoteView;
         }
         return null;
@@ -65,8 +65,8 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public long getItemId(int position) {
-        if (mSteps != null) {
-            return mSteps.get(position).getRecipeId();
+        if (mIngredients != null) {
+            return mIngredients.get(position).getRecipeId();
         }
         return 0;
     }
@@ -76,12 +76,12 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
         return false;
     }
 
-    private void getSteps() {
+    private void getIngredients() {
         final RecipeDatabase mDb = RecipeDatabase.getInstance(mContext);
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                mSteps = mDb.StepsDao().loadWidgetSteps(mRecipeId);
+                mIngredients = mDb.IngredientDao().loadWidgetIngredients(mRecipeId);
             }
         });
     }
