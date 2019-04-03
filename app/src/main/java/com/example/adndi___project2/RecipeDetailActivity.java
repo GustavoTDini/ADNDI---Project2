@@ -8,15 +8,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
-import com.example.adndi___project2.DataBase.RecipeData;
-import com.example.adndi___project2.DataBase.RecipeDatabase;
-import com.example.adndi___project2.Fragments.RecipeIngredientsFragment;
-import com.example.adndi___project2.Fragments.RecipeStepsFragment;
-import com.example.adndi___project2.Fragments.RecipeViewPagerFragment;
-import com.example.adndi___project2.RecipeUtilities.DataUtilities;
-import com.example.adndi___project2.ViewModel.GetRecipeViewModel;
-import com.example.adndi___project2.ViewModel.GetRecipeViewModelFactory;
+import com.example.adndi___project2.database.RecipeData;
+import com.example.adndi___project2.database.RecipeDatabase;
+import com.example.adndi___project2.fragments.RecipeIngredientsFragment;
+import com.example.adndi___project2.fragments.RecipeStepsFragment;
+import com.example.adndi___project2.fragments.RecipeViewPagerFragment;
+import com.example.adndi___project2.recipe_utilities.DataUtilities;
+import com.example.adndi___project2.view_model.GetRecipeViewModel;
+import com.example.adndi___project2.view_model.GetRecipeViewModelFactory;
 
 import timber.log.Timber;
 
@@ -28,6 +29,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private RecipeDatabase mDb;
     FragmentManager fragmentManager;
     ActionBar toolbar;
+    TextView titleTv;
+    TextView servingsTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         Intent intentThatStartedThisActivity = getIntent();
 
+        titleTv = findViewById(R.id.tv_detail_title);
+        servingsTv = findViewById(R.id.tv_detail_servings);
+
         if (intentThatStartedThisActivity.hasExtra(DataUtilities.ID_INTENT_EXTRA)) {
             mRecipeId = getIntent().getIntExtra(DataUtilities.ID_INTENT_EXTRA, 0);
         }
 
         detailsViewModel();
+
 
         fragmentManager = getSupportFragmentManager();
         Bundle arguments = new Bundle();
@@ -85,6 +92,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 String recipeName = recipeData.getRecipeName();
                 Timber.d("recipeName: %s", recipeName);
                 toolbar.setTitle(recipeData.getRecipeName());
+                titleTv.setText(recipeData.getRecipeName());
+                servingsTv.setText(String.valueOf(recipeData.getRecipeServings()));
             }
         });
     }

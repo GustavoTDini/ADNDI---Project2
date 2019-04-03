@@ -11,15 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.adndi___project2.AppAdaptersAndViewHolders.StepsViewPagerAdapter;
-import com.example.adndi___project2.DataBase.RecipeData;
-import com.example.adndi___project2.DataBase.RecipeDatabase;
-import com.example.adndi___project2.DataBase.RecipeSteps;
-import com.example.adndi___project2.RecipeUtilities.DataUtilities;
-import com.example.adndi___project2.ViewModel.GetRecipeViewModel;
-import com.example.adndi___project2.ViewModel.GetRecipeViewModelFactory;
-import com.example.adndi___project2.ViewModel.GetStepsViewModel;
-import com.example.adndi___project2.ViewModel.GetStepsViewModelFactory;
+import com.example.adndi___project2.app_adapters.StepsViewPagerAdapter;
+import com.example.adndi___project2.database.RecipeData;
+import com.example.adndi___project2.database.RecipeDatabase;
+import com.example.adndi___project2.database.RecipeSteps;
+import com.example.adndi___project2.recipe_utilities.DataUtilities;
+import com.example.adndi___project2.view_model.GetRecipeViewModel;
+import com.example.adndi___project2.view_model.GetRecipeViewModelFactory;
+import com.example.adndi___project2.view_model.GetStepsViewModel;
+import com.example.adndi___project2.view_model.GetStepsViewModelFactory;
 import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
 
 import java.util.List;

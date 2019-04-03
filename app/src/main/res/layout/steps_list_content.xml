@@ -3,21 +3,22 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:minHeight="200dp"
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="false"
+    app:cardBackgroundColor="@color/colorPrimaryLight"
     app:contentPadding="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryLight">
+        android:layout_height="match_parent">
 
         <TextView
-            style="@style/StepList"
             android:id="@+id/tv_step_list_order"
+            style="@style/StepList"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -27,19 +28,19 @@
         <ImageView
             android:id="@+id/iv_step_list_image"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/steps_videos_thumbnail_description"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_step_list_order"
-            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/StepList"
             android:id="@+id/tv_step_list_short_description"
+            style="@style/StepList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

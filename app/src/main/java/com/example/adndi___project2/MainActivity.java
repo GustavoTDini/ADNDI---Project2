@@ -13,15 +13,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.example.adndi___project2.AppAdaptersAndViewHolders.RecipesRecyclerAdapter;
-import com.example.adndi___project2.AppAdaptersAndViewHolders.RecyclerAdapterOnClickHandler;
-import com.example.adndi___project2.DataBase.RecipeData;
-import com.example.adndi___project2.RecipeUtilities.AppExecutors;
-import com.example.adndi___project2.RecipeUtilities.DataUtilities;
-import com.example.adndi___project2.RecipeUtilities.JsonUtilities;
-import com.example.adndi___project2.RecipeUtilities.NetworkUtilities;
-import com.example.adndi___project2.ViewModel.RecipeViewModel;
-import com.example.adndi___project2.Widget.RecipeAppWidget;
+import com.example.adndi___project2.app_adapters.RecipesRecyclerAdapter;
+import com.example.adndi___project2.app_adapters.RecyclerAdapterOnClickHandler;
+import com.example.adndi___project2.database.RecipeData;
+import com.example.adndi___project2.recipe_utilities.AppExecutors;
+import com.example.adndi___project2.recipe_utilities.DataUtilities;
+import com.example.adndi___project2.recipe_utilities.JsonUtilities;
+import com.example.adndi___project2.recipe_utilities.NetworkUtilities;
+import com.example.adndi___project2.view_model.RecipeViewModel;
+import com.example.adndi___project2.widget.RecipeAppWidget;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
