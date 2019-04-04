@@ -1,9 +1,13 @@
 package com.example.adndi___project2;
 
+import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -77,8 +81,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
             gridSpam = LANDSCAPE_SPAM_PHONE;
         }
 
-
-        // definição e inicialização do GridLayoutManager com o MovieGridAdapter no mRecyclerView
         GridLayoutManager layoutManager = new GridLayoutManager(this, gridSpam);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -91,8 +93,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
     public void onClick(int position) {
         Context context = this;
         int thisRecipeId = mRecipesList.get(position).getRecipeId();
+        createSharedPreferenceId(thisRecipeId);
+        updateWidget();
         Class destinationClass = RecipeDetailActivity.class;
-        RecipeAppWidget.updateWidget(context, thisRecipeId);
         Intent detailsIntent = new Intent(context, destinationClass);
         detailsIntent.putExtra(DataUtilities.ID_INTENT_EXTRA, thisRecipeId);
         startActivity(detailsIntent);
@@ -120,10 +123,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
                         createSampleRecipes();
                         return false;
                     case R.id.action_add_recipe:
-                        Toast.makeText(getApplicationContext(), "Adding New Recipe", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Add new recipe to be added in next iteration!", Toast.LENGTH_LONG).show();
                         return false;
                     case R.id.action_erase_all:
-                        DataUtilities.eraseAllData(getApplicationContext());
+                        deleteAllCache();
                         return false;
                     default:
                         return false;
@@ -146,5 +149,34 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
             }
         });
     }
+
+    private void createSharedPreferenceId(int recipeId) {
+        SharedPreferences.Editor editor = getSharedPreferences(DataUtilities.ID_SHARED_PREFERENCE, 0).edit();
+        editor.putInt(DataUtilities.ID_SHARED_EXTRA, recipeId);
+        editor.apply();
+    }
+
+    public void updateWidget() {
+        Intent widgetIntent = new Intent(this, RecipeAppWidget.class);
+        widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        sendBroadcast(widgetIntent);
+    }
+
+    private void deleteAllCache() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Confirm Data Exclusion")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DataUtilities.eraseAllData(getApplicationContext());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
+    }
+
 
 }

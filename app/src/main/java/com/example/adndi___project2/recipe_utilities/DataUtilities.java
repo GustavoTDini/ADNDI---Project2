@@ -13,6 +13,10 @@ public class DataUtilities {
 
     public static final String ID_INTENT_EXTRA = "recipe_id";
 
+    public static final String ID_SHARED_EXTRA = "recipe_shared_id";
+
+    public static final String ID_SHARED_PREFERENCE = "shared_id";
+
     public static final String PAGER_ORDER_EXTRA = "pageOrder";
 
 
