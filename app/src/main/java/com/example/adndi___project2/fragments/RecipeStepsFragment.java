@@ -29,13 +29,14 @@ import java.util.List;
 
 import timber.log.Timber;
 
+/**
+ * Classe de Fragment que implementa a lista de passos nos detalhes
+ */
 public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnClickHandler {
 
     private int mRecipeId = 0;
 
     private Boolean mTwoPane;
-
-
 
     public RecipeStepsFragment() {
     }
@@ -60,6 +61,9 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
         return rootView;
     }
 
+    /**
+     * ViemModel para receber a lista de passos da Receita
+     */
     private void stepsViewModel(final RecyclerView recyclerView) {
 
         RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
@@ -87,6 +91,10 @@ public class RecipeStepsFragment extends Fragment implements RecyclerAdapterOnCl
         recyclerView.setAdapter(mStepsAdapter);
     }
 
+    /**
+     * Override do onCLick, a depender se é um tablet ou telefone, irá ou abrir o
+     * viewpager na pagina do respectivo passo, ou abrir a RecipeStepsActivity
+     */
     @Override
     public void onClick(int position) {
         FragmentManager fragmentManager = getFragmentManager();

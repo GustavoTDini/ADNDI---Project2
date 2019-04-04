@@ -16,12 +16,24 @@ import org.json.JSONObject;
 
 import timber.log.Timber;
 
-
+/**
+ * Classe com os metodos que irão trabalhar com os Dados de Json
+ */
 public class JsonUtilities {
 
+    /**
+     * Array com os drawables das imagens das receitas de sample
+     */
     private static int[] drawableList = new int[]{R.drawable.nutella_pie, R.drawable.brownies, R.drawable.yellow_cake, R.drawable.cheesecake};
 
 
+    /**
+     * addRecipeData adiciona os dados da receita
+     *
+     * @param recipeJson Json da Receita
+     * @param context Contexto Atual
+     * @param arrayIndex indice do Array para receber a imagem de drawableList correto
+     */
     private static void addRecipeData(JSONObject recipeJson, Context context, int arrayIndex) {
 
         if (recipeJson == null) {
@@ -45,6 +57,13 @@ public class JsonUtilities {
 
     }
 
+    /**
+     * addRecipeData adiciona os dados dos ingredientes da Receita com o respectivo Id
+     *
+     * @param ingredientsJsonString Json da Receita
+     * @param context Contexto Atual
+     * @param recipeId Id da receita
+     */
     private static void addIngredientsData(JSONArray ingredientsJsonString, int recipeId, Context context) {
 
         if (ingredientsJsonString.length() < 1) {
@@ -74,6 +93,13 @@ public class JsonUtilities {
 
     }
 
+    /**
+     * addRecipeData adiciona os dados dos passos da Receita com o respectivo Id
+     *
+     * @param stepsJsonString Json da Receita
+     * @param context Contexto Atual
+     * @param recipeId Id da receita
+     */
     private static void addStepsData(JSONArray stepsJsonString, int recipeId, Context context) {
 
         if (stepsJsonString.length() < 1) {
@@ -104,12 +130,23 @@ public class JsonUtilities {
 
     }
 
+    /**
+     * getUrlForDrawable recebe o Url aonde ficara a imagem
+     *
+     * @param drawableId id do resource da imagem
+     */
     private static String getUrlForDrawable(int drawableId) {
         Resources.class.getPackage().getName();
         R.class.getPackage().getName();
         return Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + drawableId).toString();
     }
 
+    /**
+     * createDataBaseSample cria o banco de dados de exemplo das receitas - baseado na Json disponibilizada
+     *
+     * @param jsonSample Json de amostra
+     * @param context Contexto Atual
+     */
     public static void createDataBaseSample(String jsonSample, Context context) {
 
         if (TextUtils.isEmpty(jsonSample)) {

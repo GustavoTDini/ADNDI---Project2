@@ -29,6 +29,10 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import timber.log.Timber;
 
+/**
+ * Classe de Fragment que implementa a primeira pagina no Viewpager com o sumario da Receita,
+ * implementa o eventListener do Exoplayer
+ */
 public class StepViewPagerFragment extends Fragment implements ExoPlayer.EventListener {
 
     private int mRecipeId = 0;
@@ -41,24 +45,19 @@ public class StepViewPagerFragment extends Fragment implements ExoPlayer.EventLi
     private SimpleExoPlayer mExoPlayer;
     private MediaSessionCompat mMediaSession;
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mExoPlayer != null) {
-            ExoplayerUtilities.releasePlayer(mExoPlayer);
-            mExoPlayer.stop();
-        }
-        if (mMediaSession != null) {
-            mMediaSession.setActive(false);
-        }
-    }
 
+    /**
+     * Override de setUserVisibleHint para pausar o video e o mediassesion caso o fragment saia da
+     * visão.
+     */
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        Timber.d("SetUserVisibilityHint: %s", isVisibleToUser);
         if (!isVisibleToUser) {
             if (mExoPlayer != null) {
+                ExoplayerUtilities.pausePlayer( mExoPlayer );
                 ExoplayerUtilities.releasePlayer(mExoPlayer);
-                mExoPlayer.stop();
             }
             if (mMediaSession != null) {
                 mMediaSession.setActive(false);
@@ -66,6 +65,9 @@ public class StepViewPagerFragment extends Fragment implements ExoPlayer.EventLi
         }
     }
 
+    /**
+     * Override de onDestroy para apagar as instancias do exoplayer e do mediassesion
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -108,6 +110,9 @@ public class StepViewPagerFragment extends Fragment implements ExoPlayer.EventLi
         return rootView;
     }
 
+    /**
+     * ViemModel para receber o passo especifico da Receita
+     */
     private void stepsViewModel() {
         RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
 
@@ -172,6 +177,9 @@ public class StepViewPagerFragment extends Fragment implements ExoPlayer.EventLi
 
     }
 
+    /**
+     * Classe interna de MediaSession
+     */
     private class MySessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {

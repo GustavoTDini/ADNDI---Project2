@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.instanceOf;
 @LargeTest
 public class TestInitialView {
 
-    public static final String APP_NAME = "Baking App";
+    private static final String APP_NAME = "Baking App";
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule =
@@ -33,6 +33,6 @@ public class TestInitialView {
 
         onView(allOf(instanceOf(TextView.class),
                 withParent(withResourceName("action_bar"))))
-                .check(matches(withText(APP_NAME)));
+                .check(matches(withText(R.string.app_name)));
     }
 }

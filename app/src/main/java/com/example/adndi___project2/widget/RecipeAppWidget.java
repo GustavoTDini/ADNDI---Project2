@@ -10,14 +10,17 @@ import android.widget.RemoteViews;
 import com.example.adndi___project2.R;
 
 /**
- * Implementation of App Widget functionality.
+ * Classe do provider do Widget
  */
 public class RecipeAppWidget extends AppWidgetProvider {
 
+    /**
+     * Cria as RemoteViews com a lista de ingredientes - baseada no RecipeWidgetViewService
+     */
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        Intent serviceIntent = new Intent(context, RecipeWidgetViewsService.class);
+        Intent serviceIntent = new Intent(context, com.example.adndi___project2.widget.RecipeWidgetViewsService.class);
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
         // Construct the RemoteViews object
@@ -47,6 +50,9 @@ public class RecipeAppWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    /**
+     * Override de OnReceive - verifica a ação do intente e notifica a mudança de dados
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();

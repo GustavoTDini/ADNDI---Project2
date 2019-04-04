@@ -12,25 +12,6 @@ import android.os.Parcelable;
 @ForeignKey(entity = RecipeData.class, parentColumns = "recipe_id", childColumns = "recipe_id")
 public class RecipeIngredients {
 
-    /**
-     * Método creator do parcel para aproveitarmos as funcionalidades da classe
-     */
-    public static final Parcelable.Creator<RecipeIngredients> CREATOR = new Parcelable.Creator<RecipeIngredients>() {
-        @Override
-        public RecipeIngredients createFromParcel(Parcel in) {
-            return new RecipeIngredients(in);
-        }
-
-        @Override
-        public RecipeIngredients[] newArray(int size) {
-            return new RecipeIngredients[size];
-        }
-    };
-
-    // String que conecta a MainActivity com este Intent atraves de PutExtra
-    public static final String INGREDIENT_PARCEL = "ingredientParcel";
-
-
     @PrimaryKey(autoGenerate = true)
     private int mIngredientId;
     @ColumnInfo(name = "recipe_id")
@@ -57,25 +38,6 @@ public class RecipeIngredients {
         this.mIngredientName = ingredientName;
         this.mIngredientQuantity = ingredientQuantity;
         this.mIngredientMeasure = ingredientMeasure;
-    }
-
-    /**
-     * Construtor da Classe utilizando Parcel
-     */
-    @Ignore
-    private RecipeIngredients(Parcel in) {
-        this.mIngredientId = in.readInt();
-        this.mRecipeId = in.readInt();
-        this.mIngredientName = in.readString();
-        this.mIngredientQuantity = in.readInt();
-        this.mIngredientMeasure = in.readString();
-    }
-
-    /**
-     * Construtor da Classe vazio para Parceler
-     */
-    @Ignore
-    public RecipeIngredients() {
     }
 
     public int getIngredientId() {

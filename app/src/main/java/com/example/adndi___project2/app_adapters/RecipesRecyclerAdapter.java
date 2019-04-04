@@ -13,6 +13,9 @@ import com.example.adndi___project2.database.RecipeData;
 
 import java.util.List;
 
+/**
+ * Classe do Adapter que irá popular o RecyclerView do Fragment de receitas
+ */
 public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
 
     // ClickHandler para definirmos a interface
@@ -23,23 +26,10 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesViewHold
     // contexto atual
     private Context context;
 
-
-    /**
-     * Construtor da classe
-     *
-     * @param clickHandler interface para definirmos a função do click
-     */
     public RecipesRecyclerAdapter(RecyclerAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
-    /**
-     * onCreateViewHolder, cria os varios viewHolders que irão
-     *
-     * @param viewGroup o ViewGroup que contem esta viewHolder
-     * @param i         tipo do view utilizado, neste caso não é utilizado, pois só temos 1 tipo de view
-     * @return o ViewHolder criado
-     */
     @NonNull
     @Override
     public RecipesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -49,12 +39,6 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesViewHold
         return new RecipesViewHolder(view, mClickHandler);
     }
 
-    /**
-     * onBindViewHolder, povoa os MovieViewHolder com as Informações do MovieData
-     *
-     * @param viewHolder viewHolder a ser povoado, neste caso um MovieViewHOlder
-     * @param position   posição do MovieData da list
-     */
     @Override
     public void onBindViewHolder(@NonNull RecipesViewHolder viewHolder, int position) {
         if (mRecipeList.get(position) != null) {
@@ -66,11 +50,6 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesViewHold
         }
     }
 
-    /**
-     * getItemCount, retorna o tamanho da lista
-     *
-     * @return int com o tamanho
-     */
     @Override
     public int getItemCount() {
         if (null == mRecipeList) return 0;
@@ -78,7 +57,7 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesViewHold
     }
 
     /**
-     * setMovieData define qual lista queremos usar no MovieGridAdapter
+     * setRecipeData define a lista de Receitas e avisa a mudança de dados
      *
      * @param recipeList lista que utilizaremos
      */

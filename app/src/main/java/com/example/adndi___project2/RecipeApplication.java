@@ -10,6 +10,7 @@ public class RecipeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         if (BuildConfig.DEBUG) {
+            // Criação do debug tree do Timber
             Timber.plant(new Timber.DebugTree());
         }
     }

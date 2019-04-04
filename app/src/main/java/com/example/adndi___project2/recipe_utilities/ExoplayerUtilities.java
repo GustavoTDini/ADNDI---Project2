@@ -20,14 +20,19 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
+/**
+ * Classe com os metodos que irão trabalhar com o Exoplayer e MediaSesion
+ */
 public class ExoplayerUtilities {
 
     private static final String TAG = ExoplayerUtilities.class.getSimpleName();
 
 
     /**
-     * Initializes the Media Session to be enabled with media buttons, transport controls, callbacks
-     * and media controller.
+     * Inicializa o Mediassession
+     *
+     * @param context Contexto Atual
+     * @param session o CallBack do MediaSession
      */
     public static MediaSessionCompat initializeMediaSession(Context context, MediaSessionCompat.Callback session) {
 
@@ -60,11 +65,16 @@ public class ExoplayerUtilities {
     }
 
     /**
-     * Initialize ExoPlayer.
+     * Inicializa o ExoPlayer.
      *
-     * @param videoUrl The URI of the sample to play.
+     * @param videoUrl o URL do video
+     * @param context o contexto Atual
+     * @param exoPlayer a Instancia do Exoplayer a ser iniciada
+     * @param exoPlayerView view aonde será colocado o Exoplayer
+     * @param listener  EventListener de controle do video
      */
-    public static void initializePlayer(String videoUrl, Context context, SimpleExoPlayerView exoPlayerView, SimpleExoPlayer exoPlayer, ExoPlayer.EventListener listener) {
+    public static void initializePlayer(String videoUrl, Context context, SimpleExoPlayerView exoPlayerView,
+                                        SimpleExoPlayer exoPlayer, ExoPlayer.EventListener listener) {
         if (exoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
@@ -87,7 +97,7 @@ public class ExoplayerUtilities {
 
 
     /**
-     * Release ExoPlayer.
+     * Libera ExoPlayer.
      */
     public static void releasePlayer(SimpleExoPlayer exoPlayer) {
         if (exoPlayer != null) {
@@ -97,7 +107,7 @@ public class ExoplayerUtilities {
     }
 
     /**
-     * Pause ExoPlayer.
+     * Pausa ExoPlayer.
      */
     public static void pausePlayer(SimpleExoPlayer exoPlayer) {
         if (exoPlayer != null) {

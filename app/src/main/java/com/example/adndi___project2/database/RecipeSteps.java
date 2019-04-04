@@ -12,25 +12,6 @@ import android.os.Parcelable;
 @ForeignKey(entity = RecipeData.class, parentColumns = "recipe_id", childColumns = "recipe_id")
 public class RecipeSteps {
 
-    /**
-     * Método creator do parcel para aproveitarmos as funcionalidades da classe
-     */
-    public static final Parcelable.Creator<RecipeSteps> CREATOR = new Parcelable.Creator<RecipeSteps>() {
-        @Override
-        public RecipeSteps createFromParcel(Parcel in) {
-            return new RecipeSteps(in);
-        }
-
-        @Override
-        public RecipeSteps[] newArray(int size) {
-            return new RecipeSteps[size];
-        }
-    };
-
-    // String que conecta a MainActivity com este Intent atraves de PutExtra
-    public static final String STEPS_PARCEL = "stepsParcel";
-
-
     @PrimaryKey(autoGenerate = true)
     private int mStepId;
     @ColumnInfo(name = "recipe_id")
@@ -40,7 +21,6 @@ public class RecipeSteps {
     private String mStepDescription;
     private String mStepVideoUrl;
     private String mStepThumbnailUrl;
-
 
     /**
      * Construtor da Classe
@@ -66,28 +46,6 @@ public class RecipeSteps {
         this.mStepDescription = stepDescription;
         this.mStepVideoUrl = stepVideoUrl;
         this.mStepThumbnailUrl = stepThumbnailUrl;
-    }
-
-
-    /**
-     * Construtor da Classe utilizando Parcel
-     */
-    @Ignore
-    private RecipeSteps(Parcel in) {
-        this.mStepId = in.readInt();
-        this.mRecipeId = in.readInt();
-        this.mStepOrder = in.readInt();
-        this.mStepDescription = in.readString();
-        this.mStepDescription = in.readString();
-        this.mStepVideoUrl = in.readString();
-        this.mStepThumbnailUrl = in.readString();
-    }
-
-    /**
-     * Construtor da Classe vazio para Parceler
-     */
-    @Ignore
-    public RecipeSteps() {
     }
 
     public int getStepId() {

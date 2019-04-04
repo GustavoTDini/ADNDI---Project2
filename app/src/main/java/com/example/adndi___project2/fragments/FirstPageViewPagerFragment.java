@@ -19,6 +19,9 @@ import com.example.adndi___project2.recipe_utilities.DataUtilities;
 import com.example.adndi___project2.view_model.GetRecipeViewModel;
 import com.example.adndi___project2.view_model.GetRecipeViewModelFactory;
 
+/**
+ * Classe de Fragment que implementa a primeira pagina no Viewpager com o sumario da Receita
+ */
 public class FirstPageViewPagerFragment extends Fragment {
 
     private int mRecipeId = 0;
@@ -48,6 +51,9 @@ public class FirstPageViewPagerFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * ViemModel para receber os dados da Receita
+     */
     private void recipeViewModel() {
         RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
 

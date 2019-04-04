@@ -16,6 +16,9 @@ import java.util.List;
 
 import timber.log.Timber;
 
+/**
+ * Classe do viewFactory do Widget
+ */
 public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
 
@@ -88,6 +91,9 @@ public class RecipeWidgetViewsFactory implements RemoteViewsService.RemoteViewsF
         return false;
     }
 
+    /**
+     * recupera os Ingredientes de acordo com o Id que está no SharedPreferences
+     */
     private void getIngredients() {
         SharedPreferences prefs = mContext.getSharedPreferences(DataUtilities.ID_SHARED_PREFERENCE, 0);
         final int recipeId = prefs.getInt(DataUtilities.ID_SHARED_EXTRA, -1);

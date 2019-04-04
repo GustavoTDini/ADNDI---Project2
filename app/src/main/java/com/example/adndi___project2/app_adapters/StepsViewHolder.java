@@ -7,6 +7,10 @@ import android.widget.TextView;
 
 import com.example.adndi___project2.R;
 
+/**
+ * Classe de ViewHolder que irá definir as view da RecyclerView da lista de passos
+ * - implementa o onClickListener para definir a ação de clique
+ */
 public class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     final TextView mStepOrderTextView;

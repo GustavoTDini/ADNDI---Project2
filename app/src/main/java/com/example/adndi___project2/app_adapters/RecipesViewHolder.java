@@ -7,12 +7,17 @@ import android.widget.TextView;
 
 import com.example.adndi___project2.R;
 
+
+/**
+ * Classe de ViewHolder que irá definir as view da RecyclerView da lista das receitas
+ * - implementa o onClickListener para definir a ação de clique
+ */
 public class RecipesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     final TextView mRecipeNameTextView;
     final ImageView mRecipeImageView;
-    // ClickHandler para definirmos a interface
 
+    // ClickHandler para definirmos a interface
     private RecyclerAdapterOnClickHandler mListener;
 
     RecipesViewHolder(View view, RecyclerAdapterOnClickHandler clickListener) {

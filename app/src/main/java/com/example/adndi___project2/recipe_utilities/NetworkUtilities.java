@@ -1,6 +1,10 @@
 package com.example.adndi___project2.recipe_utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +17,9 @@ import java.nio.charset.Charset;
 
 import timber.log.Timber;
 
+/**
+ * Classe com os metodos que irão trabalhar com o a conexão de internet
+ */
 public class NetworkUtilities {
 
     // Codigo de resposta ok da conexão
@@ -42,7 +49,7 @@ public class NetworkUtilities {
      * getResponseFromHttpUrl é utilizado para abrirmos uma conexão com o respectivo URL e retornar
      * o JSON com as informações
      *
-     * @param recipeUrl URL criado pelas opções do usuario
+     * @param recipeUrlString URL criado pelas opções do usuario
      * @return a String com o JSON retornado
      */
     public static String getResponseFromHttpUrl(String recipeUrlString) throws IOException {
@@ -85,6 +92,20 @@ public class NetworkUtilities {
             }
         }
         return jsonResponse;
+    }
+
+    /**
+     * testConnection Metodo que testará ser a conexão está ativa
+     *
+     * @return Boolean mostrando se a conexão foi bem sucedida
+     */
+    static public Boolean testConnection(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connMgr != null;
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        Boolean connected = (networkInfo != null && networkInfo.isConnected());
+        Timber.d( "testConnection: %s", connected );
+        return connected;
     }
 
 }

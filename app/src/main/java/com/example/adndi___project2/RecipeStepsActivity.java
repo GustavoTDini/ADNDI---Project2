@@ -26,6 +26,10 @@ import java.util.List;
 
 import timber.log.Timber;
 
+/**
+ * Classe da RecipeDetailActivity, ele será mostrado caso esteja com um telefone e dependendo do tablet
+ * em modo retrato
+ */
 public class RecipeStepsActivity extends AppCompatActivity {
 
     private int mRecipeId = 0;
@@ -62,7 +66,9 @@ public class RecipeStepsActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Metodo que cria o viewPager
+     */
     private void setViewPager(List<RecipeSteps> steps) {
         mPager = findViewById(R.id.vp_details);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -81,6 +87,9 @@ public class RecipeStepsActivity extends AppCompatActivity {
         mPager.setCurrentItem(mInitialStepOrder);
     }
 
+    /**
+     * ViemModel para receber a lista de passos da Receita e o titulo da receita
+     */
     private void stepsViewModel() {
 
         RecipeDatabase mDb = RecipeDatabase.getInstance(getApplicationContext());

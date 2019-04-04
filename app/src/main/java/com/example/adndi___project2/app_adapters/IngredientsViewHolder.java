@@ -6,6 +6,10 @@ import android.widget.TextView;
 
 import com.example.adndi___project2.R;
 
+
+/**
+ * Classe de ViewHolder que irá definir as view da RecyclerView do Fragment de ingredients
+ */
 public class IngredientsViewHolder extends RecyclerView.ViewHolder {
 
     final TextView mIngredientNameTextView;

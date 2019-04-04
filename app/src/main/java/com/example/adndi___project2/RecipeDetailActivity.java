@@ -21,7 +21,10 @@ import com.example.adndi___project2.view_model.GetRecipeViewModelFactory;
 
 import timber.log.Timber;
 
-
+/**
+ * Classe da RecipeDetailActivity, terá um ou dois paineis dependendo se é tablet , telefone , está em
+ * modo retrato ou paisagem
+ */
 public class RecipeDetailActivity extends AppCompatActivity {
 
     private int mRecipeId = 0;
@@ -37,6 +40,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_details_activity);
 
+        // utiliza os recursos para definir se estamos com um tablet ou telefone
         mTwoPane = getResources().getBoolean(R.bool.tablet);
 
         toolbar = getSupportActionBar();
@@ -80,6 +84,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * ViemModel para receber os dados da Receita
+     */
     private void detailsViewModel() {
 
         GetRecipeViewModelFactory factory = new GetRecipeViewModelFactory(mDb, mRecipeId);

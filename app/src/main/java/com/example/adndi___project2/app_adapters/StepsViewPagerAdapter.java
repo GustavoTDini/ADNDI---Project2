@@ -11,6 +11,10 @@ import com.example.adndi___project2.recipe_utilities.DataUtilities;
 
 import timber.log.Timber;
 
+/**
+ * Classe de ViewHolder que irá definir as view da viewPager do fragmento que irá mostrar os detahes
+ * e videos dos passos da receita
+ */
 public class StepsViewPagerAdapter extends FragmentStatePagerAdapter{
 
     private int mSteps = 0;
@@ -21,6 +25,10 @@ public class StepsViewPagerAdapter extends FragmentStatePagerAdapter{
         super( fm );
     }
 
+    /**
+     * getItem irá criar as varias view, a primeira sempre mostrará o nome da receita e a foto,
+     * as demais mostraram os passos
+     */
     @Override
     public Fragment getItem(int i) {
         Bundle arguments = new Bundle();
@@ -43,12 +51,22 @@ public class StepsViewPagerAdapter extends FragmentStatePagerAdapter{
         return mSteps;
     }
 
+    /**
+     * Método que pega o numero de passos desta receita e o define o numero de views a ser populado
+     *
+     * @param stepsNumber numero de passos da receita
+     */
     public void setSteps(int stepsNumber){
         mSteps = stepsNumber;
         notifyDataSetChanged();
         Timber.d("viewPager: %s", mSteps);
     }
 
+    /**
+     * Método que recebe o Id da receita
+     *
+     * @param recipeId Id da receita
+     */
     public void getRecipeId(int recipeId) {
         mRecipeId = recipeId;
         notifyDataSetChanged();

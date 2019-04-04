@@ -12,24 +12,16 @@ import com.example.adndi___project2.database.RecipeIngredients;
 
 import java.util.List;
 
+/**
+ * Classe do Adapter que irá popular o RecyclerView do Fragment de ingredients
+ */
 public class IngredientsRecyclerAdapter extends RecyclerView.Adapter<IngredientsViewHolder> {
-
 
     private List<RecipeIngredients> mIngredientsList;
 
-    /**
-     * Construtor da classe
-     */
     public IngredientsRecyclerAdapter() {
     }
 
-    /**
-     * onCreateViewHolder, cria os varios viewHolders que irão
-     *
-     * @param viewGroup o ViewGroup que contem esta viewHolder
-     * @param i         tipo do view utilizado, neste caso não é utilizado, pois só temos 1 tipo de view
-     * @return o ViewHolder criado
-     */
     @NonNull
     @Override
     public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

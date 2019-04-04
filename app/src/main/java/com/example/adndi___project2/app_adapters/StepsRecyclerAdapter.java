@@ -14,6 +14,9 @@ import com.example.adndi___project2.database.RecipeSteps;
 
 import java.util.List;
 
+/**
+ * Classe do Adapter que irá popular o RecyclerView do Fragment dos passos da receita
+ */
 public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> {
 
     // ClickHandler para definirmos a interface
@@ -24,23 +27,10 @@ public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> 
     // contexto atual
     private Context context;
 
-
-    /**
-     * Construtor da classe
-     *
-     * @param clickHandler interface para definirmos a função do click
-     */
     public StepsRecyclerAdapter(RecyclerAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
-    /**
-     * onCreateViewHolder, cria os varios viewHolders que irão
-     *
-     * @param viewGroup o ViewGroup que contem esta viewHolder
-     * @param i         tipo do view utilizado, neste caso não é utilizado, pois só temos 1 tipo de view
-     * @return o ViewHolder criado
-     */
     @NonNull
     @Override
     public StepsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -50,12 +40,6 @@ public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> 
         return new StepsViewHolder(view, mClickHandler);
     }
 
-    /**
-     * onBindViewHolder, povoa os MovieViewHolder com as Informações do MovieData
-     *
-     * @param viewHolder viewHolder a ser povoado, neste caso um MovieViewHOlder
-     * @param position   posição do MovieData da list
-     */
     @Override
     public void onBindViewHolder(@NonNull StepsViewHolder viewHolder, int position) {
         if (mSteps.get(position) != null) {
@@ -78,11 +62,6 @@ public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> 
         }
     }
 
-    /**
-     * getItemCount, retorna o tamanho da lista
-     *
-     * @return int com o tamanho
-     */
     @Override
     public int getItemCount() {
         if (null == mSteps) return 0;
@@ -90,7 +69,7 @@ public class StepsRecyclerAdapter extends RecyclerView.Adapter<StepsViewHolder> 
     }
 
     /**
-     * setRecipeData define qual lista queremos usar no MovieGridAdapter
+     * setRecipeData define a lista dos passos da receita atual e avisa a mudança de dados
      *
      * @param stepsList lista que utilizaremos
      */

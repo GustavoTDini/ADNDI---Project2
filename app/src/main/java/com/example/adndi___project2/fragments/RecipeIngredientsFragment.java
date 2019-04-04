@@ -26,6 +26,9 @@ import java.util.List;
 
 import timber.log.Timber;
 
+/**
+ * Classe de Fragment que implementa a lista de Ingredientes nos detalhes
+ */
 public class RecipeIngredientsFragment extends Fragment {
 
     private int mRecipeId = 0;
@@ -51,6 +54,9 @@ public class RecipeIngredientsFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * ViemModel para receber a lista de ingredientes da Receita
+     */
     private void ingredientsViewModel(final RecyclerView recyclerView) {
         RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());
 
@@ -66,6 +72,7 @@ public class RecipeIngredientsFragment extends Fragment {
             }
         });
     }
+
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<RecipeIngredients> recipesList) {
 

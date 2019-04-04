@@ -24,7 +24,9 @@ import java.util.List;
 
 import timber.log.Timber;
 
-
+/**
+ * Classe de Fragment que implementa a viewPager dos passos
+ */
 public class RecipeViewPagerFragment extends Fragment {
 
     private final int DEFAULT_CURRENT_PAGE = -1;
@@ -62,7 +64,9 @@ public class RecipeViewPagerFragment extends Fragment {
         return rootView;
     }
 
-
+    /**
+     * Metodo que cria o viewPager
+     */
     private void setViewPager(View view, List<RecipeSteps> steps) {
         mPager = view.findViewById(R.id.vp_details);
         pagerAdapter = new StepsViewPagerAdapter(getFragmentManager());
@@ -82,6 +86,9 @@ public class RecipeViewPagerFragment extends Fragment {
 
     }
 
+    /**
+     * ViemModel para receber a lista de passos da Receita
+     */
     private void stepsViewModel(final View view) {
 
         RecipeDatabase mDb = RecipeDatabase.getInstance(getContext());

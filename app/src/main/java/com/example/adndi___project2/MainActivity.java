@@ -34,7 +34,9 @@ import java.util.List;
 
 import timber.log.Timber;
 
-
+/**
+ * Classe da main activity, implementa a interface RecyclerAdapterOnClickHandler
+ */
 public class MainActivity extends AppCompatActivity implements RecyclerAdapterOnClickHandler {
 
     // int com o total de View do grid em Modo paisagem
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
 
     RecyclerView mRecyclerView;
 
+    // URL aonde está o JSon
     private String mRecipesUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     @Override
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
 
     }
 
+    /**
+     * setupRecyclerView, define as configurações e povoa o RecyclerView com as receitas
+     */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<RecipeData> recipesList) {
         // Recebimento da orientação e definição do gridSpam para a correta exibição da View
         int gridSpam = PORTRAIT_SPAM_PHONE;
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
     public void onClick(int position) {
         Context context = this;
         int thisRecipeId = mRecipesList.get(position).getRecipeId();
+        // Cria o shared preferences e atualiza o widget baseas no RecipeId atual
         createSharedPreferenceId(thisRecipeId);
         updateWidget();
         Class destinationClass = RecipeDetailActivity.class;
@@ -101,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
         startActivity(detailsIntent);
     }
 
+    /**
+     * ViemModel para receber os dados da Receita
+     */
     private void observeRecipesViewModel() {
         RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         viewModel.getRecipes().observe(this, new Observer<List<RecipeData>>() {
@@ -113,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
         });
     }
 
+    /**
+     * metodo para configurar o SpeedDial
+     */
     private void createSpeedDialMenu(SpeedDialView speedDialView) {
         speedDialView.inflate(R.menu.fab_itens);
         speedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
@@ -135,33 +148,50 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterOn
         });
     }
 
+    /**
+     * metodo para criar o Sample Recipes, faz um teste de conexão antes
+     */
     private void createSampleRecipes() {
-        AppExecutors.getInstance().networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                String recipesJson = "";
-                try {
-                    recipesJson = NetworkUtilities.getResponseFromHttpUrl(mRecipesUrl);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if(NetworkUtilities.testConnection( getApplicationContext() )){
+            AppExecutors.getInstance().networkIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    String recipesJson = "";
+                    try {
+                        recipesJson = NetworkUtilities.getResponseFromHttpUrl(mRecipesUrl);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    JsonUtilities.createDataBaseSample(recipesJson, getApplicationContext());
                 }
-                JsonUtilities.createDataBaseSample(recipesJson, getApplicationContext());
-            }
-        });
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
+    /**
+     * Método para criar a sharedpreferences e coloca o RecipeId
+     */
     private void createSharedPreferenceId(int recipeId) {
         SharedPreferences.Editor editor = getSharedPreferences(DataUtilities.ID_SHARED_PREFERENCE, 0).edit();
         editor.putInt(DataUtilities.ID_SHARED_EXTRA, recipeId);
         editor.apply();
     }
 
+    /**
+     * Método para criar atualizar o Widget - Cria um intent com a ação ACTION_APPWIDGET_UPDATE
+     */
     public void updateWidget() {
         Intent widgetIntent = new Intent(this, RecipeAppWidget.class);
         widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         sendBroadcast(widgetIntent);
     }
 
+    /**
+     * Método para apagar o banco de dados, primeiro pergunta ao usuario se ele deseja realmente apagar
+     */
     private void deleteAllCache() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Confirm Data Exclusion")
